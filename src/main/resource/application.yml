@@ -5,9 +5,18 @@ server:
     remote-ip-header: x-forwarded-for
   use-forward-headers: true
 spring:
-  #数据源配置
+  # REDIS数据源配置
+  redis:
+    host: 127.0.0.1
+    password: 123456
+    port: 6379
+    timeout: 0
+    pool.max-active: 500
+    pool.max-idle: 300
+    pool.min-idle: 10
+  # MYSQL数据源配置
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/the_muses?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    url: jdbc:mysql://localhost:3306/the_muses?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: root
     password: qq529383542,./
     driver-class-name: com.mysql.jdbc.Driver
@@ -40,3 +49,20 @@ spring:
         allow:
         login-username: admin
         login-password: administrator
+mybatis:
+  # MyBatis配置
+  type-aliases-package: me.uac.domain
+  mapper-locations: classpath:me/uac/mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+pagehelper:
+  # PageHelper配置
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+mapper:
+  # MyMapper配置
+  mappers: me.uac.config.MyMapper
+  not-empty: false
+  identity: MYSQL

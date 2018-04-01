@@ -1,5 +1,6 @@
 package me.uac.aspect;
 
+import lombok.extern.slf4j.Slf4j;
 import me.uac.annotation.BusinessLog;
 import org.apache.commons.lang3.Validate;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -21,10 +22,10 @@ import static com.netflix.hystrix.contrib.javanica.utils.AopUtils.getMethodFromT
  * @author dragon
  * @date 2018/3/29 下午10:33
  */
+@Slf4j
 @Aspect
 @Component
 public class BusinessLogAspect {
-    private Logger logger = LoggerFactory.getLogger(BusinessLogAspect.class);
 
     @Pointcut("@annotation(me.uac.annotation.BusinessLog)")
     public void businessLogAnnotationPointcut() {
@@ -40,11 +41,11 @@ public class BusinessLogAspect {
         String name = joinPoint.getSignature().getName();
         String clazz = joinPoint.getTarget().getClass().toString();
         clazz = clazz.substring(5);
-        logger.info("耗时统计：" + clazz + "." + name + "()" +  values + " 开始处理...");
+        log.info("接口耗时统计：" + clazz + "." + name + "()" +  values + " 开始处理...");
         long startTime = System.currentTimeMillis();
         Object obj = joinPoint.proceed();
         long endTime = System.currentTimeMillis();
-        logger.info("耗时统计：" + clazz + "." + name + "()" +  values + " -> 耗时" + (endTime - startTime) + "ms");
+        log.info("接口耗时统计：" + clazz + "." + name + "()" +  values + " -> 耗时" + (endTime - startTime) + "ms");
         return obj;
     }
 }

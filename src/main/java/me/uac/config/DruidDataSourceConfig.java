@@ -1,6 +1,7 @@
 package me.uac.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -15,11 +16,13 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.sql.SQLException;
+import java.util.Properties;
 
 /**
  * Druid的DataResource配置类
  * @author dragon
  */
+@Slf4j
 @Configuration
 @EnableTransactionManagement
 @MapperScan(value = "me.uac.mapper")
@@ -28,6 +31,8 @@ public class DruidDataSourceConfig implements EnvironmentAware {
     private Environment environment;
 
     private RelaxedPropertyResolver propertyResolver;
+
+    private RelaxedPropertyResolver propertyResolver2;
 
     @Override
     public void setEnvironment(Environment environment) {
