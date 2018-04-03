@@ -137,9 +137,9 @@
     </dependency>
     <!-- dubbo + zookeeper -->
     <dependency>
-      <groupId>com.alibaba</groupId>
-      <artifactId>dubbo</artifactId>
-      <version>${dubbo.version}</version>
+      <groupId>com.alibaba.boot</groupId>
+      <artifactId>dubbo-spring-boot-starter</artifactId>
+      <version>0.1.0</version>
     </dependency>
     <dependency>
       <groupId>org.apache.zookeeper</groupId>

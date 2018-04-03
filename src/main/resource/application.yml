@@ -66,3 +66,18 @@ mapper:
   mappers: me.uac.config.MyMapper
   not-empty: false
   identity: MYSQL
+dubbo:
+  application:
+    id: uac-titan
+    name: uac-titan-provider
+  scan:
+    base-packages: me.uac.service.dubbo
+  protocol:
+    id: dubbo
+    name: dubbo
+    port: 20880
+  registry:
+    id: uac-titan-registry
+    address: zookeeper://127.0.0.1:2181
+    client: zkclient
+    protocol: zookeeper

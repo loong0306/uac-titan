@@ -1,7 +1,7 @@
 package me.uac.service.dubbo.impl;
 
+import com.alibaba.dubbo.config.annotation.Service;
 import me.uac.service.dubbo.UacDubboPlatformService;
-import org.springframework.stereotype.Service;
 
 /**
  * <p>Title: UacDubboPlatformService. </p>
@@ -9,7 +9,12 @@ import org.springframework.stereotype.Service;
  * @author dragon
  * @date 2018/4/2 下午2:23
  */
-@Service
+@Service(
+        version = "1.0.0",
+        application = "${dubbo.application.id}",
+        protocol = "${dubbo.protocol.id}",
+        registry = "${dubbo.registry.id}"
+)
 public class UacDubboPlatformServiceImpl implements UacDubboPlatformService {
 
     /**

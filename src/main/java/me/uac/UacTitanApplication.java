@@ -14,8 +14,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @SpringBootApplication
 @EnableTransactionManagement
-@PropertySource("classpath:dubbo.properties")
-@ImportResource(locations={"classpath:dubbo-config.xml"})
 public class UacTitanApplication {
 
     public static void main(String[] args) {
