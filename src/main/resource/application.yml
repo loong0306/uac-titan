@@ -1,5 +1,5 @@
 server:
-  port: 5500
+  port: 5501
   tomcat:
     uri-encoding: UTF-8
     remote-ip-header: x-forwarded-for
