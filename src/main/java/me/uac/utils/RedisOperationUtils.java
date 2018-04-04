@@ -4,6 +4,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -35,7 +36,15 @@ public class RedisOperationUtils {
 
     public Long getValue(String key){
         ValueOperations<String, String> valueOps = stringRedisTemplate.opsForValue();
-        return  Long.parseLong(valueOps.get(key));
+        return Long.parseLong(valueOps.get(key));
+    }
+
+    public String getKey(String key) {
+        ValueOperations<String,String> ops = stringRedisTemplate.opsForValue();
+        if(stringRedisTemplate.hasKey(key)){
+            return ops.get(key);
+        }
+        return null;
     }
 
     public void deleteKey(String key){

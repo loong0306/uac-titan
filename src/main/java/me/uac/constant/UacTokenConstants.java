@@ -8,4 +8,5 @@ package me.uac.constant;
  */
 public class UacTokenConstants {
     public static final String SECRET_TOKEN = "SECRET_TOKEN";
+    public static final String TOKEN_KEY = "TOKEN_KEY";
 }
