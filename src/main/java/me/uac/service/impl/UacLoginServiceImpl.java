@@ -49,6 +49,13 @@ public class UacLoginServiceImpl implements UacLoginService {
         uacUser.setLoginPwd(loginPwd);
         // 查询UAC数据库是否数据吻合
         uacUser = uacDoLogin(uacUser);
+        if (!CommUsualUtils.isOEmptyOrNull(uacUser)) {
+            UacLoginResDTO uacLoginResDTO = new UacLoginResDTO();
+            uacLoginResDTO.setId(uacUser.getId());
+            uacLoginResDTO.setSerialNo(uacUser.getSerialNo());
+            uacLoginResDTO.setLoginName(uacUser.getLoginName());
+            return uacLoginResDTO;
+        }
         return null;
     }
 
@@ -66,6 +73,6 @@ public class UacLoginServiceImpl implements UacLoginService {
         CheckArgumentUtil.checkArgument(!CommUsualUtils.isNull(uacUser.getLoginPwd()), UacExceptionEnums.UAC_LOGIN_ERROR_10005);
         uacUser = uacUserMapper.selectOne(uacUser);
         log.info("用户登录：获取登录信息 = {}", uacUser.toString());
-        return null;
+        return uacUser;
     }
 }
