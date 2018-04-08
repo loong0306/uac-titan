@@ -8,6 +8,7 @@ import me.dragon.exception.BusinessException;
 import me.dragon.utils.CommUsualUtils;
 import me.dragon.wrap.WrapMapper;
 import me.dragon.wrap.Wrapper;
+import me.uac.annotation.BusinessLog;
 import me.uac.annotation.PrintParam;
 import me.uac.constant.UacTokenConstants;
 import me.uac.enums.UacExceptionEnums;
@@ -21,7 +22,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.io.IOException;
 
 /**
  * <p>Title: UacLoginCtl. </p>
@@ -39,11 +39,13 @@ public class UacLoginCtl extends BaseController {
     @Resource
     private UacLoginService uacLoginService;
 
+    @PrintParam
     @ResponseBody
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    @ApiOperation(notes = "登录结果json", httpMethod = "POST", value = "登录接口")
-    @PrintParam
-    public Wrapper<?> doLogin(@ApiParam(name = "uacLoginReqDTO", value = "用户登录请求参数") UacLoginReqDTO uacLoginReqDTO) {
+    @ApiOperation(notes = "登录结果json", httpMethod = "POST", value = "用户登录接口")
+    @BusinessLog(logInfo = "用户登录接口")
+    public Wrapper<?> doLogin(@ApiParam(name = "uacLoginReqDTO", value = "用户登录请求参数")
+                                  @RequestBody UacLoginReqDTO uacLoginReqDTO) {
         UacLoginResDTO uacLoginResDTO;
         String loginName = uacLoginReqDTO.getLoginName();
         String loginPwd = uacLoginReqDTO.getLoginPwd();

@@ -32,10 +32,10 @@ public class UacUser implements Serializable {
     private String id;
 
     /**
-     * 业务号
+     * 流水号
      */
     @Column(name = "serial_no")
-    @ApiModelProperty(value = "业务号")
+    @ApiModelProperty(value = "流水号")
     private String serialNo;
 
     /**
