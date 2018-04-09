@@ -12,9 +12,11 @@ import me.uac.annotation.BusinessLog;
 import me.uac.annotation.PrintParam;
 import me.uac.constant.UacTokenConstants;
 import me.uac.enums.UacExceptionEnums;
+import me.uac.model.bo.UacLoginTestBO;
 import me.uac.model.dto.req.UacLoginReqDTO;
 import me.uac.model.dto.res.UacLoginResDTO;
 import me.uac.service.UacLoginService;
+import me.uac.utils.AesUtil;
 import me.uac.utils.PasswordUtils;
 import me.uac.utils.RedisOperationUtils;
 import me.uac.utils.RequestUtil;
@@ -35,9 +37,31 @@ import javax.annotation.Resource;
 @Api(value = "UacLoginCtl", tags = "用户账户中心登录接口", description = "用户账户中心登录接口", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class UacLoginCtl extends BaseController {
 
-    RedisOperationUtils redisOperationUtils = new RedisOperationUtils();
+    @Resource
+    private RedisOperationUtils redisOperationUtils;
     @Resource
     private UacLoginService uacLoginService;
+
+    @PrintParam
+    @ResponseBody
+    @RequestMapping(value = "/test", method = RequestMethod.POST)
+    @ApiOperation(notes = "加密结果", httpMethod = "POST", value = "加密数据测试接口")
+    public Wrapper<?> test(@ApiParam(name = "uacLoginReqDTO", value = "用户登录请求参数")
+                              @RequestBody UacLoginTestBO uacLoginTestBO) {
+        try {
+            String secretToken = redisOperationUtils.getKey(UacTokenConstants.SECRET_TOKEN);
+            uacLoginTestBO.setLoginName(AesUtil.encrypt(uacLoginTestBO.getLoginName(), secretToken, false, secretToken));
+            uacLoginTestBO.setLoginPwd(AesUtil.encrypt(uacLoginTestBO.getLoginPwd(), secretToken, false, secretToken));
+            uacLoginTestBO.setSecretToken(secretToken);
+        } catch (BusinessException e) {
+            log.error("加密数据测试接口, 出现异常={}", e.getMessage(), e);
+            return WrapMapper.wrap(Wrapper.ERROR_CODE, e.getMessage());
+        } catch (Exception ex) {
+            log.error("加密数据测试接口, 出现异常={}", ex.getMessage(), ex);
+            return WrapMapper.wrap(Wrapper.ERROR_CODE, ex.getMessage());
+        }
+        return WrapMapper.wrap(Wrapper.SUCCESS_CODE, Wrapper.SUCCESS_MESSAGE, uacLoginTestBO);
+    }
 
     @PrintParam
     @ResponseBody
@@ -65,7 +89,6 @@ public class UacLoginCtl extends BaseController {
                 throw new BusinessException(UacExceptionEnums.UAC_TOKEN_ERROR_10002.code(), UacExceptionEnums.UAC_TOKEN_ERROR_10002.msg());
             }
             uacLoginReqDTO.setSecretToken(secretToken);
-            uacLoginReqDTO.setIp(RequestUtil.getRequest().getRemoteAddr());
             uacLoginReqDTO.setTokenKey(getPrivateTokenKey());
             uacLoginResDTO = uacLoginService.doLogin(uacLoginReqDTO);
             if (CommUsualUtils.isOEmptyOrNull(uacLoginResDTO)) {

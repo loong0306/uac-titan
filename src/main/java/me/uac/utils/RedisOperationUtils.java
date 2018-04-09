@@ -1,18 +1,20 @@
 package me.uac.utils;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
-
-import javax.annotation.Resource;
-import java.io.IOException;
+import org.springframework.stereotype.Component;
 import java.util.concurrent.TimeUnit;
 
 /**
  * @author dragon
  * @date 2018年03月30日22:35:29
  */
+@Slf4j
+@Component
 public class RedisOperationUtils {
-    @Resource
+    @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
     public void set(String key, String value){
@@ -40,7 +42,7 @@ public class RedisOperationUtils {
     }
 
     public String getKey(String key) {
-        ValueOperations<String,String> ops = stringRedisTemplate.opsForValue();
+        ValueOperations<String, String> ops = stringRedisTemplate.opsForValue();
         if(stringRedisTemplate.hasKey(key)){
             return ops.get(key);
         }

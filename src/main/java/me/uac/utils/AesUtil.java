@@ -85,7 +85,7 @@ public class AesUtil {
      * 测试，key要满足16字节长度
      */
 //    public static void main(String[] args) {
-//        String key = "CH2%:5AGVSgyL1@h";
+//        String key = "l$lF,WA`qT^egB36";
 //        String sec = encrypt("admin", key, false, key);
 //        System.out.println(sec);
 //        String unSec = decrypt(sec, key, false, key);

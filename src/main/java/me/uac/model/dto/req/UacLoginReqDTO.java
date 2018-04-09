@@ -37,12 +37,6 @@ public class UacLoginReqDTO implements Serializable {
     private String systemId;
 
     /**
-     * 登录IP地址
-     */
-    @ApiModelProperty(value = "ip")
-    private String ip;
-
-    /**
      * 登录秘钥
      */
     @ApiModelProperty(value = "登录秘钥")

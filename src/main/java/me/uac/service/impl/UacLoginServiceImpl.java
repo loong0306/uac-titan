@@ -2,6 +2,7 @@ package me.uac.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import me.dragon.utils.CommUsualUtils;
+import me.dragon.utils.MD5Utils;
 import me.uac.domain.UacUser;
 import me.uac.domain.UacUserLoginLog;
 import me.uac.enums.UacExceptionEnums;
@@ -12,6 +13,8 @@ import me.uac.model.dto.res.UacLoginResDTO;
 import me.uac.service.UacLoginService;
 import me.uac.utils.AesUtil;
 import me.uac.utils.CheckArgumentUtil;
+import me.uac.utils.PasswordUtils;
+import me.uac.utils.RequestUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,6 +54,8 @@ public class UacLoginServiceImpl implements UacLoginService {
         String secretToken = uacLoginReqDTO.getSecretToken();
         loginName = AesUtil.decrypt(loginName, secretToken, false, secretToken);
         loginPwd = AesUtil.decrypt(loginPwd, secretToken, false, secretToken);
+        // 将解密后的数据重新加密MD5进行数据库校验
+        loginPwd = PasswordUtils.encodeByAES(loginPwd);
         UacUser uacUser = new UacUser();
         uacUser.setLoginName(loginName);
         uacUser.setLoginPwd(loginPwd);
@@ -84,7 +89,7 @@ public class UacLoginServiceImpl implements UacLoginService {
         UacUserLoginLog uacUserLoginLog = new UacUserLoginLog();
         uacUserLoginLog.setUserId(userId);
         uacUserLoginLog.setLoginName(uacLoginReqDTO.getLoginName());
-        uacUserLoginLog.setLoginIp(uacLoginReqDTO.getIp());
+        uacUserLoginLog.setLoginIp(RequestUtil.getRequest().getRemoteAddr());
         uacUserLoginLog.setSystemId(uacLoginReqDTO.getSystemId());
         uacUserLoginLog.setLoginTime(new Date());
         uacUserLoginLogMapper.insert(uacUserLoginLog);
@@ -103,7 +108,11 @@ public class UacLoginServiceImpl implements UacLoginService {
         CheckArgumentUtil.checkArgument(!CommUsualUtils.isNull(uacUser.getLoginName()), UacExceptionEnums.UAC_LOGIN_ERROR_10004);
         CheckArgumentUtil.checkArgument(!CommUsualUtils.isNull(uacUser.getLoginPwd()), UacExceptionEnums.UAC_LOGIN_ERROR_10005);
         uacUser = uacUserMapper.selectOne(uacUser);
-        log.info("用户登录：获取登录信息 = {}", uacUser.toString());
+        if (!CommUsualUtils.isOEmptyOrNull(uacUser)) {
+            log.info("用户登录：获取登录信息 = {}", uacUser.toString());
+        } else {
+            log.error("用户登录失败：无此用户信息");
+        }
         return uacUser;
     }
 }
