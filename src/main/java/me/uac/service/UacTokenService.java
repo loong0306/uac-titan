@@ -1,7 +1,10 @@
 package me.uac.service;
 
 
+import me.dragon.model.dto.AuthUserDTO;
 import me.dragon.wrap.Wrapper;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * <p>Title: UacTokenService. </p>
@@ -19,4 +22,25 @@ public interface UacTokenService {
      * @return Wrapper.String
      */
     Wrapper<String> getSecretToken();
+
+    /**
+     * <p>Title: getAuthUserByToken. </p>
+     * <p>通过JWT_TOKEN获取用户全局通用信息 </p>
+     * @param response
+     * @param token
+     * @author dragon
+     * @date 2018/4/9 下午4:54
+     * @return AuthUserDTO
+     */
+    AuthUserDTO getAuthUserByToken(HttpServletResponse response, String token);
+
+    /**
+     * <p>Title: encodeToken. </p>
+     * <p>成功登录后，获取TOKEN </p>
+     * @param authUserDTO
+     * @author dragon
+     * @date 2018/4/9 下午5:37
+     * @return java.lang.String TOKEN
+     */
+    String encodeToken(AuthUserDTO authUserDTO);
 }

@@ -30,7 +30,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Slf4j
 @RestController
-@RequestMapping(value = "/api/uac/token", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = "/api/uac/auth/token", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 @Api(value = "UacTokenCtl", tags = "用户账户中心TOKEN接口", description = "用户账户中心TOKEN接口", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 
 public class UacTokenCtl extends BaseController {

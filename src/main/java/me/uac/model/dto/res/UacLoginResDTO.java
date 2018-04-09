@@ -2,7 +2,6 @@ package me.uac.model.dto.res;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import javax.persistence.Column;
 import java.io.Serializable;
 
 /**
@@ -30,6 +29,12 @@ public class UacLoginResDTO implements Serializable {
     /**
      * 用户名
      */
-    @Column(name = "login_name")
+    @ApiModelProperty(value = "用户名")
     private String loginName;
+
+    /**
+     * TOKEN
+     */
+    @ApiModelProperty(value = "TOKEN")
+    private String token;
 }

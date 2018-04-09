@@ -33,7 +33,7 @@ import javax.annotation.Resource;
  */
 @Slf4j
 @RestController
-@RequestMapping(value = "/api/uac/login", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = "/api/uac/auth/login", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 @Api(value = "UacLoginCtl", tags = "用户账户中心登录接口", description = "用户账户中心登录接口", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class UacLoginCtl extends BaseController {
 

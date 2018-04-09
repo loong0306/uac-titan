@@ -1,8 +1,11 @@
 package me.uac.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
+import me.dragon.model.dto.AuthUserDTO;
 import me.dragon.utils.CommUsualUtils;
 import me.dragon.utils.MD5Utils;
+import me.dragon.utils.ThreadLocalMap;
+import me.uac.constant.UacTokenConstants;
 import me.uac.domain.UacUser;
 import me.uac.domain.UacUserLoginLog;
 import me.uac.enums.UacExceptionEnums;
@@ -11,6 +14,7 @@ import me.uac.mapper.UacUserMapper;
 import me.uac.model.dto.req.UacLoginReqDTO;
 import me.uac.model.dto.res.UacLoginResDTO;
 import me.uac.service.UacLoginService;
+import me.uac.service.UacTokenService;
 import me.uac.utils.AesUtil;
 import me.uac.utils.CheckArgumentUtil;
 import me.uac.utils.PasswordUtils;
@@ -35,6 +39,8 @@ public class UacLoginServiceImpl implements UacLoginService {
     private UacUserMapper uacUserMapper;
     @Resource
     private UacUserLoginLogMapper uacUserLoginLogMapper;
+    @Resource
+    private UacTokenService uacTokenService;
 
     /**
      * <p>Title: doLogin. </p>
@@ -72,9 +78,31 @@ public class UacLoginServiceImpl implements UacLoginService {
             uacLoginResDTO.setId(userId);
             uacLoginResDTO.setSerialNo(serialNo);
             uacLoginResDTO.setLoginName(loginName);
+            // 获取TOKEN
+            uacLoginResDTO.setToken(getToken(uacUser));
             return uacLoginResDTO;
         }
         return null;
+    }
+
+    /**
+     * <p>Title: getToken. </p>
+     * <p>成功登录后，获取TOKEN </p>
+     * @param uacUser
+     * @author dragon
+     * @date 2018/4/9 下午5:37
+     * @return java.lang.String TOKEN
+     */
+    public String getToken(UacUser uacUser) {
+        // TOKEN处理
+        log.info("登录成功，获取用户TOKEN。用户 = {}", uacUser.toString());
+        AuthUserDTO authUserDTO = new AuthUserDTO();
+        authUserDTO.setUserId(uacUser.getSerialNo());
+        authUserDTO.setUserName(uacUser.getLoginName());
+        String token = uacTokenService.encodeToken(authUserDTO);
+        // 将登录信息放进ThreadLocalMap
+        ThreadLocalMap.put(UacTokenConstants.JWT_TOKEN, token);
+        return token;
     }
 
     /**

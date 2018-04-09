@@ -29,7 +29,7 @@ import javax.validation.Valid;
  */
 @Slf4j
 @RestController
-@RequestMapping(value = "/api/uac/register", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = "/api/uac/auth/register", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 @Api(value = "UacRegisterCtl", tags = "用户账户中心注册接口", description = "用户账户中心注册接口", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class UacRegisterCtl extends BaseController {
 

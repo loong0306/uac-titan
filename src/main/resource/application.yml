@@ -4,6 +4,13 @@ server:
     uri-encoding: UTF-8
     remote-ip-header: x-forwarded-for
   use-forward-headers: true
+uac:
+  auth:
+    expiredRemainMinutes: 30
+    expiredMinutes: 120
+    domain:
+  cookie:
+    token: UAC_TITAN_TOKEN
 spring:
   # REDIS数据源配置
   redis:
