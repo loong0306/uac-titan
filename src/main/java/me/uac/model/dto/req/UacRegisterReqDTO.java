@@ -38,4 +38,11 @@ public class UacRegisterReqDTO implements Serializable {
     @ApiModelProperty(value = "确认密码")
     @NotBlank(message = "确认密码不能为空")
     private String confirmPwd;
+
+    /**
+     * 系统标识
+     */
+    @ApiModelProperty(value = "系统标识")
+    @NotBlank(message = "系统标识不能为空")
+    private String systemId;
 }

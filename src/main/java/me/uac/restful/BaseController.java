@@ -18,10 +18,9 @@ public class BaseController {
     /**
      * <p>Title: handleBindingResult. </p>
      * <p>Hibernate Validator校验结果处理 </p>
-     * @param bindingResult
+     * @param bindingResult 校验
      * @author dragon
      * @date 2018/3/29 下午10:42
-     * @return void
      */
     protected void handleBindingResult(BindingResult bindingResult) throws Exception {
         List<ObjectError> allErrors = bindingResult.getAllErrors();

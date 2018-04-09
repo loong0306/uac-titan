@@ -4,12 +4,15 @@ import lombok.extern.slf4j.Slf4j;
 import me.dragon.exception.BusinessException;
 import me.uac.constant.SystemBaseConstants;
 import me.uac.domain.UacUser;
+import me.uac.domain.UacUserRegisterLog;
 import me.uac.enums.UacExceptionEnums;
 import me.uac.mapper.UacUserMapper;
+import me.uac.mapper.UacUserRegisterLogMapper;
 import me.uac.model.dto.req.UacRegisterReqDTO;
 import me.uac.service.UacRegisterService;
 import me.uac.utils.PasswordUtils;
 import me.uac.utils.RedisUtils;
+import me.uac.utils.RequestUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +32,8 @@ public class UacRegisterServiceImpl implements UacRegisterService {
     @Resource
     private UacUserMapper uacUserMapper;
     @Resource
+    private UacUserRegisterLogMapper uacUserRegisterLogMapper;
+    @Resource
     private RedisUtils redisUtils;
 
     /**
@@ -41,15 +46,26 @@ public class UacRegisterServiceImpl implements UacRegisterService {
     @Transactional(rollbackFor = Exception.class)
     public Integer doRegister(UacRegisterReqDTO uacRegisterReqDTO) {
         validateRegisterInfo(uacRegisterReqDTO);
+        // Redis生成唯一用户ID
+        String userId = redisUtils.getUserSerialNo();
+        // 当前时间
+        Date nowDate = new Date();
         UacUser uacUser = new UacUser();
         uacUser.setLoginName(uacRegisterReqDTO.getLoginName());
         uacUser.setLoginPwd(PasswordUtils.encodeByAES(uacRegisterReqDTO.getLoginPwd()));
-        uacUser.setSerialNo(redisUtils.getUserSerialNo());
+        uacUser.setSerialNo(userId);
         uacUser.setUserStatus(SystemBaseConstants.Y);
-        uacUser.setCreatedTime(new Date());
+        uacUser.setCreatedTime(nowDate);
         uacUser.setVersion(SystemBaseConstants.VERSION_INIT);
-        uacUserMapper.insert(uacUser);
-        return 1;
+        int insertUacUserCount = uacUserMapper.insert(uacUser);
+        // 存入用户注册表，可作为数据分析使用
+        UacUserRegisterLog uacUserRegisterLog = new UacUserRegisterLog();
+        uacUserRegisterLog.setUserId(userId);
+        uacUserRegisterLog.setSystemId(uacRegisterReqDTO.getSystemId());
+        uacUserRegisterLog.setRegisterTime(nowDate);
+        uacUserRegisterLog.setRegisterIp(RequestUtil.getRequest().getRemoteAddr());
+        uacUserRegisterLogMapper.insert(uacUserRegisterLog);
+        return insertUacUserCount;
     }
 
     /**
