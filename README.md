@@ -21,35 +21,38 @@ Dubbo端口：5500；项目端口：5501
 
 > register:用户注册
 <br/>
-> （1）获取secretToken，使用AES加密用户密码
+>（1）获取secretToken，使用AES加密用户密码
 <br/>
-> （2）将用户注册信息存入用户信息表
+>（2）将用户注册信息存入用户信息表
 <br/>
-> （3）将用户注册信息存入新用户注册表，可作为大数据分析使用
+>（3）将用户注册信息存入新用户注册表，可作为大数据分析使用
+<br/>
 
 
 > login:用户登录
 <br/>
-> （1）获取secretToken，使用AES加密用户登录信息
+>（1）获取secretToken，使用AES加密用户登录信息
 <br/>
-> （2）通过加密的用户信息的secretToken进行AES解密
+>（2）通过加密的用户信息的secretToken进行AES解密
 <br/>
-> （3）将解密后的数据重新加密MD5进行数据库校验
+>（3）将解密后的数据重新加密MD5进行数据库校验
 <br/>
-> （4）记录用户登录日志
+>（4）记录用户登录日志
 <br/>
-> （5）返回BASE用户信息，以及JWT_TOKEN串
+>（5）返回BASE用户信息，以及JWT_TOKEN串
+<br/>
 
 
-> interceptor:拦截器
+>interceptor:拦截器
 <br/>
-> （1）获取Authorization，获取JWT_TOKEN
+>（1）获取Authorization，获取JWT_TOKEN
 <br/>
-> （2）通过JWT_TOKEN获取用户BASE信息
+>（2）通过JWT_TOKEN获取用户BASE信息
 <br/>
-> （3）判断用户操作是否需要JWT_TOKEN续租
+>（3）判断用户操作是否需要JWT_TOKEN续租
 <br/>
-> （4）校验是否为常规合法JWT_TOKEN
+>（4）校验是否为常规合法JWT_TOKEN
+<br/>
 
 
 ```text
