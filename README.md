@@ -20,39 +20,30 @@ Dubbo端口：5500；项目端口：5501
 ##### UAC思路
 
 > register:用户注册
-<br/>
->（1）获取secretToken，使用AES加密用户密码
-<br/>
->（2）将用户注册信息存入用户信息表
-<br/>
->（3）将用户注册信息存入新用户注册表，可作为大数据分析使用
-<br/>
+```+
+（1）获取secretToken，使用AES加密用户密码
+（2）将用户注册信息存入用户信息表
+（3）将用户注册信息存入新用户注册表，可作为大数据分析使用
+```
 
 
 > login:用户登录
-<br/>
->（1）获取secretToken，使用AES加密用户登录信息
-<br/>
->（2）通过加密的用户信息的secretToken进行AES解密
-<br/>
->（3）将解密后的数据重新加密MD5进行数据库校验
-<br/>
->（4）记录用户登录日志
-<br/>
->（5）返回BASE用户信息，以及JWT_TOKEN串
-<br/>
+```+
+（1）获取secretToken，使用AES加密用户登录信息
+（2）通过加密的用户信息的secretToken进行AES解密
+（3）将解密后的数据重新加密MD5进行数据库校验
+（4）记录用户登录日志
+（5）返回BASE用户信息，以及JWT_TOKEN串
+```
 
 
 >interceptor:拦截器
-<br/>
->（1）获取Authorization，获取JWT_TOKEN
-<br/>
->（2）通过JWT_TOKEN获取用户BASE信息
-<br/>
->（3）判断用户操作是否需要JWT_TOKEN续租
-<br/>
->（4）校验是否为常规合法JWT_TOKEN
-<br/>
+```+
+（1）获取Authorization，获取JWT_TOKEN
+（2）通过JWT_TOKEN获取用户BASE信息
+（3）判断用户操作是否需要JWT_TOKEN续租
+（4）校验是否为常规合法JWT_TOKEN
+```
 
 
 ```text
