@@ -32,8 +32,6 @@ public class DruidDataSourceConfig implements EnvironmentAware {
 
     private RelaxedPropertyResolver propertyResolver;
 
-    private RelaxedPropertyResolver propertyResolver2;
-
     @Override
     public void setEnvironment(Environment environment) {
         this.environment = environment;
