@@ -94,6 +94,7 @@ public class AuthInterceptor implements HandlerInterceptor {
      * @return java.lang.Boolean
      */
     private Boolean validateAndSettingValidateCode(AuthUserDTO authUserDTO) {
+        // TODO
         return true;
     }
 
