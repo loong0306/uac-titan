@@ -11,8 +11,6 @@ import java.util.List;
 @Slf4j
 public abstract class BaseService<T> implements IService<T> {
 
-    private static final String OWNER_ENV = "OTC";
-
     @Autowired
     protected Mapper<T> mapper;
 
