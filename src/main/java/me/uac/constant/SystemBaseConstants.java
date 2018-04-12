@@ -1,11 +1,3 @@
-/**
- * Project Name:xescm-csc
- * File Name:SystemBaseConstants.java
- * Package Name:com.xescm.csc.model.constant
- * Date:2016年10月24日下午12:56:42
- * Copyright (c) 2016, http://www.hnxianyi.com All Rights Reserved.
- */
-
 package me.uac.constant;
 
 /**
